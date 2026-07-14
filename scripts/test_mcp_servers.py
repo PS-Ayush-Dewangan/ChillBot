@@ -1,6 +1,6 @@
 import sys, json
 sys.path.insert(0, r"C:\ChillBot")
-from servers import info_server as info, fun_server as fun, movie_server as movie, books_server as books, motivation_server as motiv, weather_server as weather
+from servers import info_server as info, fun_server as fun
 
 print('--- INFO: get_weather_by_city(Ahmedabad) ---')
 try:
@@ -43,8 +43,3 @@ try:
 except Exception as e:
     print('ERROR motivation_quote:', e)
 
-print('\n--- THIN WRAPPERS IMPORT CHECK ---')
-print('movie_server imported as', movie.__name__)
-print('books_server imported as', books.__name__)
-print('motivation_server imported as', motiv.__name__)
-print('weather_server imported as', weather.__name__)

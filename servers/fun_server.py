@@ -37,13 +37,31 @@ def random_joke() -> str:
     return json.dumps({"joke": data["joke"]})
 
 
+_FALLBACK_QUOTES = [
+    {"content": "The only way to do great work is to love what you do.", "author": "Steve Jobs"},
+    {"content": "It does not matter how slowly you go as long as you do not stop.", "author": "Confucius"},
+    {"content": "Believe you can and you're halfway there.", "author": "Theodore Roosevelt"},
+    {"content": "Start where you are. Use what you have. Do what you can.", "author": "Arthur Ashe"},
+    {"content": "Success is not final, failure is not fatal: it is the courage to continue that counts.", "author": "Winston Churchill"},
+]
+
+
 @mcp.tool()
 def motivation_quote() -> str:
-    """Fetch a motivational quote from the Quotable API."""
-    data = http_get("https://api.quotable.io/random?tags=motivational|inspirational")
-    if data and data.get("content"):
-        return json.dumps({"content": data["content"], "author": data.get("author", "Unknown")})
-    return json.dumps({"error": "Could not fetch a quote right now. Try again!"})
+    """Fetch a motivational quote. Tries dummyjson → affirmations.dev → local fallback."""
+    # Primary: dummyjson
+    data = http_get("https://dummyjson.com/quotes/random")
+    if data and data.get("quote"):
+        return json.dumps({"content": data["quote"], "author": data.get("author", "Unknown")})
+
+    # Secondary: affirmations.dev
+    data2 = http_get("https://www.affirmations.dev/")
+    if data2 and data2.get("affirmation"):
+        return json.dumps({"content": data2["affirmation"], "author": "Daily Affirmation"})
+
+    # Local fallback: never fails
+    import random
+    return json.dumps(random.choice(_FALLBACK_QUOTES))
 
 
 if __name__ == "__main__":

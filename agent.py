@@ -93,6 +93,8 @@ def format_book_result(raw_result: str) -> str:
     """
     try:
         data = json.loads(raw_result)
+        if isinstance(data, dict) and "error" in data:
+            return data["error"]
         title = data.get("title") or data.get("name") or "Unknown Title"
         author = data.get("author") or "Unknown Author"
         year = data.get("year") or "Unknown"
@@ -102,15 +104,29 @@ def format_book_result(raw_result: str) -> str:
         else:
             summary_text = summary
 
-        parts = [f'📚 "{title}"']
-        if author:
-            parts.append(f"by {author}")
-        if year:
-            parts.append(f"({year})")
-        header = " ".join(parts)
+        # Generate engaging description if empty or too short
+        if not summary_text or len(summary_text) < 10:
+            if is_ollama_available():
+                prompt = (
+                    f"Write a very brief, engaging 1-sentence description/hook for the book "
+                    f"'{title}' by {author} ({year}). Do not mention page counts or metadata. "
+                    f"Only return the description itself."
+                )
+                try:
+                    desc = chat_ollama([{"role": "user", "content": prompt}], temperature=0.5).strip()
+                    if desc.startswith('"') and desc.endswith('"'):
+                        desc = desc[1:-1].strip()
+                    if desc and not desc.startswith("{") and "error" not in desc.lower():
+                        summary_text = desc
+                except Exception:
+                    pass
+
+        parts = []
+        parts.append(f"book name:- {title} ({year})")
+        parts.append(f"author:- {author}")
         if summary_text:
-            return f"{header} — {summary_text}"
-        return header
+            parts.append(f"description :- {summary_text}")
+        return "\n".join(parts)
     except Exception:
         # Fall back to LLM formatting if JSON parsing fails
         return _format_with_llm("suggest a book", "book_recommend", raw_result)
@@ -119,6 +135,8 @@ def format_book_result(raw_result: str) -> str:
 def format_weather_result(raw_result: str) -> str:
     try:
         data = json.loads(raw_result)
+        if isinstance(data, dict) and "error" in data:
+            return data["error"]
         name = data.get("location") or data.get("location_name") or data.get("location_name") or "Unknown location"
         temp = data.get("temperature_celsius")
         weather = data.get("weather")
@@ -132,6 +150,8 @@ def format_weather_result(raw_result: str) -> str:
 def format_movie_result(raw_result: str) -> str:
     try:
         data = json.loads(raw_result)
+        if isinstance(data, dict) and "error" in data:
+            return data["error"]
         title = data.get("title") or "Unknown"
         rating = data.get("rating")
         year = data.get("year")
@@ -144,6 +164,8 @@ def format_movie_result(raw_result: str) -> str:
 def format_joke_result(raw_result: str) -> str:
     try:
         data = json.loads(raw_result)
+        if isinstance(data, dict) and "error" in data:
+            return data["error"]
         if data.get("joke"):
             return data["joke"]
         setup = data.get("setup")
@@ -158,6 +180,8 @@ def format_joke_result(raw_result: str) -> str:
 def format_quote_result(raw_result: str) -> str:
     try:
         data = json.loads(raw_result)
+        if isinstance(data, dict) and "error" in data:
+            return data["error"]
         content = data.get("content") or data.get("quote")
         author = data.get("author")
         if content and author:

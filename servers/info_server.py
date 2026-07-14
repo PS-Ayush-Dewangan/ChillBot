@@ -353,12 +353,29 @@ def book_recommend(topic: str) -> str:
     # Normalize and correct common misspellings to improve search results
     def _normalize_topic(t: str) -> str:
         t = (t or "").lower().strip()
-        # common typos
-        corrections = {"mudder": "murder", "muder": "murder", "muder": "murder"}
+        # Fix typos first
+        corrections = {
+            "mudder": "murder",
+            "muder": "murder",
+            "mystrey": "mystery",
+            "sci fci": "sci-fi",
+            "sci-fci": "sci-fi",
+            "scifi": "sci-fi",
+            "sci fi": "sci-fi",
+        }
         for a, b in corrections.items():
             t = re.sub(rf"\b{re.escape(a)}\b", b, t)
-        # remove punctuation and collapse spaces
-        t = re.sub(r"[^a-z0-9 ]+", " ", t)
+        
+        # Remove common request/filler words
+        fillers = [
+            r"\b(suggest|recommend|please|can you|you|me|a|an|give|show|find)\b",
+            r"\b(books?|novels?|reads?)\b\s*(on|about)?",
+        ]
+        for pattern in fillers:
+            t = re.sub(pattern, " ", t)
+
+        # remove punctuation (keep hyphen for sci-fi) and collapse spaces
+        t = re.sub(r"[^a-z0-9\- ]+", " ", t)
         t = re.sub(r"\s+", " ", t).strip()
         return t
 

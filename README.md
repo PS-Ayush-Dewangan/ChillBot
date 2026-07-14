@@ -199,11 +199,7 @@ chillbot/
 │
 ├── servers/                  # 🛠️ MCP Tool Servers
 │   ├── info_server.py        #   🌤️ Weather · 📚 Books · 🎬 Movies
-│   ├── fun_server.py         #   😂 Jokes · 💪 Quotes
-│   ├── books_server.py       #   📚 Book recommendation (re-export)
-│   ├── movie_server.py       #   🎬 Movie recommendation (re-export)
-│   ├── motivation_server.py  #   💪 Motivation quotes (re-export)
-│   └── weather_server.py     #   🌤️ Weather (re-export)
+│   └── fun_server.py         #   😂 Jokes · 💪 Quotes
 │
 ├── utils/                    # 🔧 Core Utilities
 │   ├── cli.py                #   🎨 Terminal UI (colors, formatting)
