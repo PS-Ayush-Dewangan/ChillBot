@@ -235,7 +235,6 @@ chillbot/
 ├── .gitignore                # 🙈 Git ignore rules
 ├── pyproject.toml            # 📦 Project metadata & dependencies
 ├── requirements.txt          # 📦 Python dependencies
-├── LICENSE                   # 📜 MIT License
 └── README.md                 # 📖 This file
 ```
 
