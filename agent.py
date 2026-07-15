@@ -137,11 +137,15 @@ def format_weather_result(raw_result: str) -> str:
         data = json.loads(raw_result)
         if isinstance(data, dict) and "error" in data:
             return data["error"]
-        name = data.get("location") or data.get("location_name") or data.get("location_name") or "Unknown location"
+        name = data.get("location") or data.get("location_name") or "Unknown location"
         temp = data.get("temperature_celsius")
         weather = data.get("weather")
         wind = data.get("wind_speed_kmh")
         tz = data.get("timezone")
+        lat = data.get("latitude")
+        lon = data.get("longitude")
+        if lat is not None and lon is not None:
+            return f"Weather for {name} (approx {lat:.4f}, {lon:.4f}): {temp}°C, {weather}, wind {wind} km/h (timezone: {tz})"
         return f"Weather for {name}: {temp}°C, {weather}, wind {wind} km/h (timezone: {tz})"
     except Exception:
         return _format_with_llm("get weather", "get_weather", raw_result)

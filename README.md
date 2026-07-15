@@ -280,10 +280,7 @@ cp .env.example .env
 ollama serve
 
 # Terminal 2: Pull the default model
-ollama pull mistral:7b
-
-# (Optional) Use a smaller model for faster responses
-# ollama pull llama3.2:3b
+ollama pull llama3.2:1b
 ```
 
 ### Run ChillBot
@@ -301,7 +298,7 @@ You should see:
     Powered by MCP + Ollama
 ================================================
 
-✓ Ollama connected  (model: mistral:7b)
+✓ Ollama connected  (model: llama3.2:1b)
 
 Connecting to MCP servers…
 Connected MCP Servers:
@@ -431,12 +428,12 @@ pytest tests/ -v --cov=.
 - Check if Ollama is installed: `ollama --version`
 
 ### "Model not found"
-- Pull the model: `ollama pull mistral:7b`
-- Or change the model in `.env`: `OLLAMA_MODEL=llama3.2:3b`
+- Pull the model: `ollama pull llama3.2:1b`
+- Or change the model in `.env`: `OLLAMA_MODEL=llama3.2:1b`
 
 ### Slow responses
 - First response is slow while the model loads into GPU memory
-- Use a smaller model: `OLLAMA_MODEL=llama3.2:3b` or `OLLAMA_MODEL=phi3:mini`
+- Use a smaller model: `OLLAMA_MODEL=llama3.2:1b` or `OLLAMA_MODEL=phi3:mini`
 - Reduce `MAX_ITERATIONS` in `.env` (default: 5)
 
 ### "Tool not found"
