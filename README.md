@@ -447,20 +447,6 @@ pytest tests/ -v --cov=.
 
 ---
 
-## 🗺️ Roadmap
-
-- [ ] 🌐 **Web UI** — Streamlit or Gradio interface
-- [ ] 💬 **Conversation Memory** — Persistent chat history across sessions
-- [ ] 🎤 **Voice Input/Output** — Speech-to-text and text-to-speech
-- [ ] 📅 **Calendar Integration** — MCP server for calendar management
-- [ ] 📧 **Email Integration** — MCP server for email
-- [ ] 📰 **News Server** — Latest news headlines
-- [ ] 🐳 **Docker Support** — Containerized deployment
-- [ ] ⚡ **Streaming Responses** — Real-time token-by-token output
-- [ ] 🔌 **Plugin System** — Community-contributed MCP servers
-
----
-
 ## 🤝 Contributing
 
 Contributions are welcome! Here's how you can help:
